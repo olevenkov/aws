@@ -1,0 +1,1 @@
+aws ec2 run-instances --image-id ami-05355a6c --block-device-mappings http://bucketnamehere.s3.amazonaws.com/filename.json
