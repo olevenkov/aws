@@ -1,0 +1,26 @@
+"NATEIPAZ1" : {
+"Type" : "AWS::EC2::EIP",
+"Properties" : {
+"Domain" : "vpc"
+}
+}
+
+
+"NATENIAZ1" : {
+"Type" : "AWS::EC2::NetworkInterface",
+"Properties" : {
+"Description" : "ENI for NAT Instance in AZ1",
+"SourceDestCheck" : "false",
+"GroupSet" : [
+{
+"Ref" : "NATSecurityGroup"
+},
+{
+"Ref" : "DefaultSecurityGroup"
+}
+],
+"SubnetId" : {
+"Ref" : "PublicSubnetAZ1"
+}
+}
+}
