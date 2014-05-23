@@ -1,0 +1,29 @@
+"HANATAutoScalingGroupAZ1": {
+"Type": "AWS::AutoScaling::AutoScalingGroup",
+"UpdatePolicy" : {
+"AutoScalingRollingUpdate" : {
+"MinInstancesInService" : "1",
+"MaxBatchSize" : "1"
+}
+},
+"Properties": {
+"AvailabilityZones":[ {
+"Ref" : "AvailabilityZoneOne"
+}],
+"LaunchConfigurationName": {
+"Ref": "HANATLaunchConfigAZ1"
+},
+"VPCZoneIdentifier": [{ "Ref" : "PublicSubnetAZ1"}],
+"MinSize": "1",
+"MaxSize": "1",
+"NotificationConfiguration" : {
+"TopicARN" : { "Ref" : "SNSTopic" },
+"NotificationTypes" : [
+"autoscaling:EC2_INSTANCE_LAUNCH",
+"autoscaling:EC2_INSTANCE_LAUNCH_ERROR",
+"autoscaling:EC2_INSTANCE_TERMINATE",
+"autoscaling:EC2_INSTANCE_TERMINATE_ERROR"
+]
+}
+}
+}
