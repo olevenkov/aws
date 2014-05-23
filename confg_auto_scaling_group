@@ -1,0 +1,27 @@
+
+"HANATLaunchConfigAZ1": {
+"Type": "AWS::AutoScaling::LaunchConfiguration",
+"DependsOn": ["NATENIEIPAssociationAZ1"],
+"Properties": {
+"AssociatePublicIpAddress": true,
+"ImageId": {"Ref" : "AMIId"},
+"InstanceType": {"Ref" : "InstanceType"},
+"InstanceMonitoring": true,
+"SecurityGroups": [{ "Ref" : "NATSecurityGroup" }],
+"KeyName" : { "Ref" : "KeyName" },
+"IamInstanceProfile": {
+"Ref": "NATInstanceProfile"
+},
+"UserData" : { "Fn::Base64" : { "Fn::Join" : ["", [
+"#!/bin/bash -v\n",
+"# Set CLI Output to text\n",
+"export AWS_DEFAULT_OUTPUT=\"text\"\n",
+"export AWS_DEFAULT_REGION=",{"Ref" : "AWS::Region"},"\n",
+"# Set Instance Identity URI\n",
+"INSTANCE_ID=`/usr/bin/curl -s http://169.254.169.254/latest/meta-data/instance-id`\n",
+"aws ec2 attach-network-interface --network-interface-id ",{"Ref" : "NATENIAZ1"}," --instance-id $INSTANCE_ID --device-index 1\n",
+"sysctl -q -w net.ipv4.conf.all.send_redirects=0 && (iptables -t nat -C POSTROUTING -s ",{"Ref" : "VPCCIDRNetwork"}," -j MASQUERADE 2> /dev/null || iptables -t nat -A POSTROUTING -s ",{"Ref" : "VPCCIDRNetwork"}," -j MASQUERADE )\n",
+"route del default eth0\n"
+]]}}
+}
+}
