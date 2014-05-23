@@ -1,0 +1,15 @@
+
+"NATENIEIPAssociationAZ1" : {
+"Type" : "AWS::EC2::EIPAssociation",
+"Properties" : {
+"AllocationId" : {
+"Fn::GetAtt" : [
+"NATEIPAZ1",
+"AllocationId"
+]
+},
+"NetworkInterfaceId" : {
+"Ref" : "NATENIAZ1"
+}
+}
+}
