@@ -1,0 +1,12 @@
+"NATRouteAZ1" : {
+"Type" : "AWS::EC2::Route",
+"Properties" : {
+"RouteTableId" : {
+"Ref" : "PrivateRouteTableAZ1"
+},
+"DestinationCidrBlock" : "0.0.0.0/0",
+"NetworkInterfaceId" : {
+"Ref" : "NATENIAZ1"
+}
+}
+}
